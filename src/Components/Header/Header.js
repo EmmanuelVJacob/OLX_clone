@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import './Header.css';
 import OlxLogo from '../../assets/OlxLogo';
@@ -6,12 +6,21 @@ import Search from '../../assets/Search';
 import Arrow from '../../assets/Arrow';
 import SellButton from '../../assets/SellButton';
 import SellButtonPlus from '../../assets/SellButtonPlus';
+import { AuthContext } from '../../store/Context';
+import { getAuth,signOut } from 'firebase/auth';
+import {  useNavigate } from 'react-router-dom';
 function Header() {
+  const {user,setUser}=useContext(AuthContext)
+  const auth = getAuth()
+  const nav = useNavigate()
+
+
+
   return (
     <div className="headerParentDiv">
       <div className="headerChildDiv">
-        <div className="brandName">
-          <OlxLogo></OlxLogo>
+        <div className="brandName" onClick={()=>{nav('/')}}>
+          <OlxLogo ></OlxLogo>
         </div>
         <div className="placeSearch">
           <Search></Search>
@@ -29,16 +38,29 @@ function Header() {
             <Search color="#ffffff"></Search>
           </div>
         </div>
-        <div className="language">
+        <div className="ml-2 language">
           <span> ENGLISH </span>
           <Arrow></Arrow>
         </div>
-        <div className="loginPage">
-          <span>Login</span>
+        <div className="ml-2 loginPage">
+        <span>
+      {user ? (
+        <span>{user.username.toUpperCase()}</span>
+      ) : (
+        <span onClick={()=>{nav('/login')}}>Login</span>
+      )}
+    </span>
           <hr />
         </div>
-
-        <div className="sellMenu">
+        {user && <span className='ml-2' onClick={()=>{
+         signOut(auth).then(() => {
+          setUser('')
+          nav('/login')
+        }).catch((error) => {
+          console.log(error);
+        });
+        }}>Logout</span>}
+        <div onClick={()=>{nav('/create')}} className="ml-2 sellMenu">
           <SellButton></SellButton>
           <div className="sellMenuContent">
             <SellButtonPlus></SellButtonPlus>

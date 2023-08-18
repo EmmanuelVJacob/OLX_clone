@@ -7,8 +7,8 @@
   width: 70vw;
 }
 .viewParentDiv .imageShowDiv img {
-  width: 65vw;
-  height: 85vh;
+  width: 40vw;
+  height: 95vh;
 }
 
 .viewParentDiv .rightSection {
@@ -25,6 +25,7 @@
   line-height: 32px;
   margin-bottom: 20px;
 }
+
 
 .viewParentDiv .rightSection .productDetails {
   border: 1px solid black;
